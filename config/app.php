@@ -179,6 +179,7 @@ return [
          * Email Service and Repository Providers
          */
         App\Providers\EmailRepositoryProvider::class,
+        App\Providers\EmailServiceProvider::class,
 
     ],
 
