@@ -16,3 +16,13 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+/*
+ * API V1 Email Service Routes
+ */
+Route::group(['prefix' => '/emailservice/v1', 'namespace' => 'EmailService\Api\V1', 'as' => 'email.service.api.v1.'], function () {
+
+    // Send email
+    Route::post('emails', 'EmailController@send')->name('email.send');
+
+});
