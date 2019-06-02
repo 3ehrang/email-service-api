@@ -5,6 +5,7 @@ namespace App\Http\Controllers\EmailService\Api\V1;
 use App\Http\Requests\SendEmailPost;
 use App\Http\Controllers\Controller;
 use App\Repositories\Interfaces\EmailRepoInterface;
+use App\Services\Interfaces\EmailServiceInterface;
 
 class EmailController extends Controller
 {
@@ -14,13 +15,20 @@ class EmailController extends Controller
     private $emailEloquent;
 
     /**
+     * @var EmailServiceInterface
+     */
+    private $emailService;
+
+    /**
      * EmailController constructor.
      *
      * @param EmailRepoInterface $emailEloquent
+     * @param EmailServiceInterface $emailService
      */
-    public function __construct(EmailRepoInterface $emailEloquent)
+    public function __construct(EmailRepoInterface $emailEloquent, EmailServiceInterface $emailService)
     {
         $this->emailEloquent = $emailEloquent;
+        $this->emailService = $emailService;
     }
 
     /**
@@ -48,6 +56,9 @@ class EmailController extends Controller
             return api_fail('Unable to communicate with database.', $input, 422);
 
         }
+
+        // Send data to email service
+        $this->emailService->send($input);
 
         // Return success response
         return api_success('Queued. Thank you.', $input);
