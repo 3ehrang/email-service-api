@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\EmailService\Api\V1;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\SendEmailPost;
 use App\Http\Controllers\Controller;
 
 class EmailController extends Controller
@@ -10,18 +10,17 @@ class EmailController extends Controller
     /**
      * Get email data and send it
      *
-     * @param Request $request
+     * @param SendEmailPost $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function send(Request $request)
+    public function send(SendEmailPost $request)
     {
         // Get input
         $input = $request->only(
             'subject', 'from', 'fromName', 'to', 'toName', 'content', 'contentType'
         );
 
-        // Return success response
         $response = [
             'status' => 'success',
             'message' => 'Queued. Thank you.',
