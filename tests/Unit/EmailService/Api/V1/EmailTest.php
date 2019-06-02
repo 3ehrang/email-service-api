@@ -12,6 +12,21 @@ class EmailTest extends TestCase
     use RefreshDatabase, DatabaseMigrations;
 
     /**
+     * Add a record without status
+     *
+     * @test
+     */
+    public function a_status_default_value_must_be_zero()
+    {
+        $email = factory(Email::class)->raw();
+        unset($email['status']);
+
+        Email::create($email);
+
+        $this->assertCount(1, Email::all());
+    }
+
+    /**
      * A basic test checks inserting data to email table.
      *
      * @test
