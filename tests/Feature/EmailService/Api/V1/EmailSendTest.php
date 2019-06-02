@@ -19,7 +19,7 @@ class EmailSendTest extends TestCase
         $email = $this->getSampleData();
 
         // Send email request
-        $response = $this->json('POST', route('api.email.service.v1.email.send'), $email);
+        $response = $this->json('POST', route('email.service.api.v1.email.send'), $email);
 
         // Assert it was successful and response was acceptable
         $response
