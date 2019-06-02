@@ -4,6 +4,7 @@ namespace Tests\Feature\EmailService\Api\V1;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Email;
 
 class EmailSendTest extends TestCase
 {
@@ -42,26 +43,7 @@ class EmailSendTest extends TestCase
      */
     public function getSampleData()
     {
-        $data = [
-            'subject' => $this->faker->sentence,
-            'from' => $this->faker->email,
-            'fromName' => $this->faker->name,
-            'to' => $this->faker->email,
-            'toName' => $this->faker->name,
-            'contentType' => $this->faker->randomElement(['text/html', 'text/string'])
-        ];
-
-        // Add content based on contentType
-        if ($data['contentType'] == 'text/html') {
-
-            $data['content'] = $this->faker->randomHtml(1,1);
-
-        } elseif ($data['contentType'] == 'text/string') {
-
-            $data['content'] = $this->faker->paragraph;
-
-        }
-
-        return $data;
+        $email = factory(Email::class)->raw()['data'];
+        return json_decode($email, true);
     }
 }
