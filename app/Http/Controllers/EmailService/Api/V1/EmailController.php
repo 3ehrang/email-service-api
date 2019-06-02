@@ -4,6 +4,7 @@ namespace App\Http\Controllers\EmailService\Api\V1;
 
 use App\Http\Requests\SendEmailPost;
 use App\Http\Controllers\Controller;
+use App\Models\Email;
 
 class EmailController extends Controller
 {
@@ -20,6 +21,9 @@ class EmailController extends Controller
         $input = $request->only(
             'subject', 'from', 'fromName', 'to', 'toName', 'content', 'contentType'
         );
+
+        // Save email data
+        Email::create(['data' => json_encode($input), 'received_at' => now()]);
 
         $response = [
             'status' => 'success',
