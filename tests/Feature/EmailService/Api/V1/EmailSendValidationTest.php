@@ -2,13 +2,11 @@
 
 namespace Tests\Feature\Api\EmailService\V1;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 use App\Models\Email;
 
 class EmailSendValidationTest extends TestCase
 {
-    use DatabaseMigrations;
     /**
      * Email must has subject
      *
@@ -21,7 +19,7 @@ class EmailSendValidationTest extends TestCase
         unset($email['subject']);
 
         // Send email request
-        $response = $this->json('POST', route('email.service.api.v1.email.send'), $email);
+        $response = $this->sendRequest($email);
 
         // Check failure response is correct
         $response->assertStatus(422);
@@ -40,7 +38,7 @@ class EmailSendValidationTest extends TestCase
         unset($email['to']);
 
         // Send email request
-        $response = $this->json('POST', route('email.service.api.v1.email.send'), $email);
+        $response = $this->sendRequest($email);
 
         // Check failure response is correct
         $response->assertStatus(422);
@@ -59,7 +57,7 @@ class EmailSendValidationTest extends TestCase
         unset($email['contentType']);
 
         // Send email request
-        $response = $this->json('POST', route('email.service.api.v1.email.send'), $email);
+        $response = $this->sendRequest($email);
 
         // Check failure response is correct
         $response->assertStatus(422);
@@ -78,101 +76,11 @@ class EmailSendValidationTest extends TestCase
         unset($email['content']);
 
         // Send email request
-        $response = $this->json('POST', route('email.service.api.v1.email.send'), $email);
+        $response = $this->sendRequest($email);
 
         // Check failure response is correct
         $response->assertStatus(422);
         $response->assertJsonValidationErrors('content');
-    }
-
-    /**
-     * @test
-     */
-    public function email_without_to_name_is_valid()
-    {
-        // Get sample data and remove content
-        $email = $this->getSampleData();
-        unset($email['toName']);
-
-        // Send email request
-        $response = $this->json('POST', route('email.service.api.v1.email.send'), $email);
-
-        // Assert it was successful and response was acceptable
-        $response
-            ->assertStatus(200)
-            ->assertJsonStructure([
-                'status',
-                'message',
-                'data'
-            ])
-            ->assertJson([
-                'status' => 'success',
-                'message' => 'Queued. Thank you.',
-            ]);
-    }
-
-    /**
-     * @test
-     */
-    public function email_without_from_name_is_valid()
-    {
-        // Get sample data and remove content
-        $email = $this->getSampleData();
-        unset($email['fromName']);
-
-        // Send email request
-        $response = $this->json('POST', route('email.service.api.v1.email.send'), $email);
-
-        // Assert it was successful and response was acceptable
-        $response
-            ->assertStatus(200)
-            ->assertJsonStructure([
-                'status',
-                'message',
-                'data'
-            ])
-            ->assertJson([
-                'status' => 'success',
-                'message' => 'Queued. Thank you.',
-            ]);
-    }
-
-    /**
-     * Email's receiver address must be a valid email address
-     *
-     * @test
-     */
-    public function receiver_email_format_muse_be_valid()
-    {
-        // Get sample data
-        $email = $this->getSampleData();
-        $email['to'] = 'example.co';
-
-        // Send email request
-        $response = $this->json('POST', route('email.service.api.v1.email.send'), $email);
-
-        // Check failure response is correct
-        $response->assertStatus(422);
-        $response->assertJsonValidationErrors('to');
-    }
-
-    /**
-     * Email's receiver address must be a valid email address if provide
-     *
-     * @test
-     */
-    public function sender_email_format_muse_be_valid()
-    {
-        // Get sample data
-        $email = $this->getSampleData();
-        $email['from'] = 'example.co';
-
-        // Send email request
-        $response = $this->json('POST', route('email.service.api.v1.email.send'), $email);
-
-        // Check failure response is correct
-        $response->assertStatus(422);
-        $response->assertJsonValidationErrors('from');
     }
 
     /**
@@ -184,5 +92,19 @@ class EmailSendValidationTest extends TestCase
     {
         $email = factory(Email::class)->raw()['data'];
         return json_decode($email, true);
+    }
+
+    /**
+     * Get email data, send and return response
+     *
+     * @param $email
+     *
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
+    public function sendRequest($email)
+    {
+        $response = $this->json('POST', route('email.service.api.v1.email.send'), $email);
+
+        return $response;
     }
 }
