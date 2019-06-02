@@ -45,21 +45,11 @@ class EmailController extends Controller
         } catch (\Exception $e) {
 
             // Return fail response
-            $response = [
-                'status' => 'success',
-                'message' => 'Unable to communicate with database.',
-                'data' => $input
-            ];
-            return response()->json($response, 422);
+            return api_fail('Unable to communicate with database.', $input, 422);
 
         }
 
-        $response = [
-            'status' => 'success',
-            'message' => 'Queued. Thank you.',
-            'data' => $input
-        ];
-
-        return response()->json($response, 200);
+        // Return success response
+        return api_success('Queued. Thank you.', $input);
     }
 }
