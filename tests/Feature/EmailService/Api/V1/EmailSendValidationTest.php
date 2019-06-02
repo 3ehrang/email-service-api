@@ -2,11 +2,13 @@
 
 namespace Tests\Feature\Api\EmailService\V1;
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 use App\Models\Email;
 
 class EmailSendValidationTest extends TestCase
 {
+    use DatabaseMigrations;
     /**
      * Email must has subject
      *
