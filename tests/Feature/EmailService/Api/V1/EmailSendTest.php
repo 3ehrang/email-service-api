@@ -54,7 +54,7 @@ class EmailSendTest extends TestCase
         $email = $this->getSampleData();
 
         $this->mock(EmailServiceInterface::class, function ($mock){
-           $mock->shouldReceive('send')->once();
+           $mock->shouldReceive('send')->once()->andReturn(['status' => 'success']);
         });
 
         // Send email request
@@ -63,7 +63,7 @@ class EmailSendTest extends TestCase
         // Is email saved in database?
         $this->assertCount(1, Email::all());
 
-        // Check email's status
+        // Email's status must be 2 means is sent
         $response->assertSee('sid');
         $responseData = $response->decodeResponseJson('data');
         $this->assertDatabaseHas('emails', [
