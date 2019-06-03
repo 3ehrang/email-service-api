@@ -5,6 +5,7 @@
 
 namespace App\Services;
 
+use App\Repositories\EmailEloquent;
 use App\Services\Email\Handler\PostmarkHandler;
 use App\Services\Email\Handler\SendGridHandler;
 use App\Services\Email\Handler\SendPulseHandler;
@@ -34,17 +35,7 @@ class EmailService implements EmailServiceInterface
         ;
         $result = $sendGridHandler->handle($attributes);
 
-        if ($result['status'] == 'success') {
-
-            // TODO: Update email's status = 2 means is sent
-
-        } else {
-
-            // TODO: Update email's status = 3
-            // TODO: Worst case scenario if email was not sent
-
-        }
-
         return $result;
+
     }
 }
