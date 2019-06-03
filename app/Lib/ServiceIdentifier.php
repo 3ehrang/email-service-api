@@ -16,7 +16,7 @@ class ServiceIdentifier
      */
     public static function Create()
     {
-        $prefix = 'sid-' . now()->format('ymd');
+        $prefix = 'sid-';
 
         return uniqid($prefix);
     }
