@@ -8,19 +8,18 @@
 
 if (!function_exists('api_success')) {
     /**
-     * @param string|null $message
-     * @param array|Illuminate\Database\Eloquent\Model $data
+     * @param array $data
      * @param int $status HTTP status code
      * @param array $extraHeaders
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    function api_success($message = null, $data = [], $status = 200, $extraHeaders = [])
+    function api_success($data, $status = 200, $extraHeaders = [])
     {
         $response = [
             'status' => 'success',
         ];
-        !is_null($message) && $response['message'] = $message;
+
         $response['data'] = $data;
 
         return response()->json($response, $status, $extraHeaders);
@@ -29,18 +28,18 @@ if (!function_exists('api_success')) {
 
 if (!function_exists('api_fail')) {
     /**
-     * @param string|null $message
      * @param array $data
      * @param int $status HTTP status code
-     * @param array $extraHeaders
+     * @param array $extraHeaders Optional
+     *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    function api_fail($message = null, $data, $status = 400, $extraHeaders = [])
+    function api_fail($data, $status = 400, $extraHeaders = [])
     {
         $response = [
             'status' => 'fail',
         ];
-        !is_null($message) && $response['message'] = $message;
+
         $response['data'] = $data;
 
         return response()->json($response, $status, $extraHeaders);
@@ -50,13 +49,14 @@ if (!function_exists('api_fail')) {
 if (!function_exists('api_error')) {
     /**
      * @param string $message Error message
-     * @param string $code Optional custom error code
-     * @param string | array $data Optional data
      * @param int $status HTTP status code
+     * @param string | array $data
+     * @param string $code Optional custom error code
      * @param array $extraHeaders
+     *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    function api_error($message, $data = null, $code = null, $status = 500, $extraHeaders = [])
+    function api_error($message, $status = 500,  $data = null, $code = null, $extraHeaders = [])
     {
         $response = [
             'status' => 'error',

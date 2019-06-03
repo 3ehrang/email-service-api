@@ -38,7 +38,7 @@ class EmailSendTest extends TestCase
                 'data'
             ])
             ->assertJson([
-                'status' => 'fail',
+                'status' => 'error',
                 'message' => 'Unable to communicate with database.'
             ]);
     }
@@ -67,12 +67,10 @@ class EmailSendTest extends TestCase
             ->assertStatus(200)
             ->assertJsonStructure([
                 'status',
-                'message',
                 'data'
             ])
             ->assertJson([
                 'status' => 'success',
-                'message' => 'Queued. Thank you.',
             ]);
     }
 

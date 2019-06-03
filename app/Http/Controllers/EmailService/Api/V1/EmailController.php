@@ -52,8 +52,8 @@ class EmailController extends Controller
 
         } catch (\Exception $e) {
 
-            // Return fail response
-            return api_fail('Unable to communicate with database.', $input, 422);
+            // Return error response
+            return api_error('Unable to communicate with database.', 422, $input);
 
         }
 
@@ -61,6 +61,6 @@ class EmailController extends Controller
         $this->emailService->send($input);
 
         // Return success response
-        return api_success('Queued. Thank you.', $input);
+        return api_success($input,200);
     }
 }
