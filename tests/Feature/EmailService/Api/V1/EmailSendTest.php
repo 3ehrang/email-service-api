@@ -67,7 +67,9 @@ class EmailSendTest extends TestCase
             ->assertStatus(200)
             ->assertJsonStructure([
                 'status',
-                'data'
+                'data' => [
+                    'sid'
+                ]
             ])
             ->assertJson([
                 'status' => 'success',
