@@ -12,6 +12,6 @@ class Email extends Model
      * @var array
      */
     protected $fillable = [
-        'status', 'data', 'receive_at',
+        'sid', 'status', 'data', 'receive_at',
     ];
 }
