@@ -19,7 +19,7 @@ class EmailEloquent implements EmailRepoInterface
 
     public function setAsSent($sid)
     {
-        $update = ['status' => 2];
+        $update = ['status' => 2, 'sent_at' => now()];
 
         return Email::where('sid', $sid)->update($update);
     }
