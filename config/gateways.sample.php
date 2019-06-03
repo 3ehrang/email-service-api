@@ -2,6 +2,7 @@
 
 use EmailGateway\Adapter\SendGridAdp;
 use EmailGateway\Adapter\SendPulseAdp;
+use EmailGateway\Adapter\PostmarkAdp;
 
 return [
 
@@ -31,6 +32,14 @@ return [
             'handler' => SendPulseAdp::class,
             'id' => '',
             'secret' => '',
+            'from' => '',
+            'fromName' => ''
+        ],
+
+        'postMark' => [
+            'enable' => true,
+            'handler' => PostmarkAdp::class,
+            'serverToken' => '',
             'from' => '',
             'fromName' => ''
         ],
