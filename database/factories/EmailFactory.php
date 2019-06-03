@@ -44,5 +44,7 @@ $factory->define(Email::class, function (Faker $faker) {
         'sid' => 'sid-' . now()->format('ymds') . $faker->randomNumber(5),
         'status' => $faker->numberBetween(0, 3),
         'data' => $data,
+        'received_at' => now()->addSeconds(30),
+        'sent_at'   => now()->addSeconds(60),
     ];
 });

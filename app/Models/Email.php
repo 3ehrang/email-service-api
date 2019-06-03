@@ -12,7 +12,7 @@ class Email extends Model
      * @var array
      */
     protected $fillable = [
-        'sid', 'status', 'data', 'receive_at',
+        'sid', 'status', 'data', 'received_at', 'sent_at',
     ];
 
     /**
@@ -26,6 +26,7 @@ class Email extends Model
         if (!$value) {
             $this->attributes['received_at'] = now();
         }
+        $this->attributes['received_at'] = $value;
     }
 
     /**
