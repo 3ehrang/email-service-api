@@ -18,7 +18,7 @@ class EmailSendTest extends TestCase
      *
      * @test
      */
-    public function can_not_save_email_into_database()
+    public function should_get_error_when_unable_to_save_email()
     {
         // Drop emails table
         Schema::dropIfExists('emails');
@@ -45,10 +45,12 @@ class EmailSendTest extends TestCase
 
     /**
      * Mock sending email process in order to prevent sending email in real world
+     * Get success response when email was sent
+     * Email's status must equal to 2 means sent
      *
      * @test
      */
-    public function can_send_email()
+    public function should_get_success_when_email_was_sent()
     {
         // Get sample data
         $email = $this->getSampleData();
@@ -85,11 +87,12 @@ class EmailSendTest extends TestCase
     }
 
     /**
-     * Mock sending email process and check email sending failure
+     * Get fail response when email was not sent
+     * Email's status must equal to 3 means not sent
      *
      * @test
      */
-    public function can_not_send_email()
+    public function should_get_fail_when_email_was_not_sent()
     {
         // Get sample data
         $email = $this->getSampleData();
@@ -115,14 +118,14 @@ class EmailSendTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJsonStructure([
-                                      'status',
-                                      'data' => [
-                                          'sid'
-                                      ]
-                                  ])
+                'status',
+                'data' => [
+                    'sid'
+                ]
+            ])
             ->assertJson([
-                             'status' => 'success',
-                         ]);
+                'status' => 'success',
+            ]);
     }
 
     /**
