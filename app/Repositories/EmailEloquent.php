@@ -11,15 +11,23 @@ use App\Repositories\Interfaces\EmailRepoInterface;
  */
 class EmailEloquent implements EmailRepoInterface
 {
-    /**
-     * Create a record in emails table by getting array of attributes
-     *
-     * @param array $attributes
-     *
-     * @return Email
-     */
-    public function create(array $attributes)
+    function create(array $attributes)
     {
-        return Email::create($attributes);
+        $email = Email::create($attributes);
+        return $email->toArray();
+    }
+
+    public function setAsSent($sid)
+    {
+        $update = ['status' => 2];
+
+        return Email::where('sid', $sid)->update($update);
+    }
+
+    public function setAsFailed($sid)
+    {
+        $update = ['status' => 3];
+
+        return Email::where('sid', $sid)->update($update);
     }
 }
