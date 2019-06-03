@@ -1,6 +1,7 @@
 <?php
 
 use EmailGateway\Adapter\SendGridAdp;
+use EmailGateway\Adapter\SendPulseAdp;
 
 return [
 
@@ -21,6 +22,15 @@ return [
             'enable' => true,
             'handler' => SendGridAdp::class,
             'apiKey' => '',
+            'from' => '',
+            'fromName' => ''
+        ],
+
+        'sendPulse' => [
+            'enable' => true,
+            'handler' => SendPulseAdp::class,
+            'id' => '',
+            'secret' => '',
             'from' => '',
             'fromName' => ''
         ],
