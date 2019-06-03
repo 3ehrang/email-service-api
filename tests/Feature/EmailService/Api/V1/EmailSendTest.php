@@ -16,17 +16,18 @@ class EmailSendTest extends TestCase
     /**
      * @test
      */
-    public function response_should_have_proper_data()
+    public function success_response_should_have_proper_data()
     {
         // Get sample data
         $email = $this->getSampleData();
 
+        // Mock success
         $this->mock(EmailServiceInterface::class, function ($mock){
             $mock->shouldReceive('send')->once()->andReturn(['status' => 'success']);
         });
 
         // Send email request
-        $response = $this->json('POST', route('email.service.api.v1.email.send'), $email);
+        $response = $this->sendRequest($email);
 
         // Checking response dat structure
         $response
@@ -44,6 +45,40 @@ class EmailSendTest extends TestCase
                 ]
             ]);
     }
+
+    /**
+     * @test
+     */
+    public function failed_response_should_have_proper_data()
+    {
+        // Get sample data
+        $email = $this->getSampleData();
+
+        // Mock error
+        $this->mock(EmailServiceInterface::class, function ($mock){
+            $mock->shouldReceive('send')->once()->andReturn(['status' => 'error']);
+        });
+
+        // Send email request
+        $response = $this->sendRequest($email);
+
+        // Checking response dat structure
+        $response
+            ->assertJsonStructure([
+                'status',
+                'data' => [
+                    'subject',
+                    'from',
+                    'fromName',
+                    'to',
+                    'toName',
+                    'contentType',
+                    'content',
+                    'sid'
+                ]
+            ]);
+    }
+
     /**
      * Test if database connection with emails table lost
      *
@@ -58,16 +93,11 @@ class EmailSendTest extends TestCase
         $email = $this->getSampleData();
 
         // Send email request
-        $response = $this->json('POST', route('email.service.api.v1.email.send'), $email);
+        $response = $this->sendRequest($email);
 
         // Assert it was successful and response was acceptable
         $response
             ->assertStatus(422)
-            ->assertJsonStructure([
-                'status',
-                'message',
-                'data'
-            ])
             ->assertJson([
                 'status' => 'error',
                 'message' => 'Unable to communicate with database.'
@@ -86,12 +116,13 @@ class EmailSendTest extends TestCase
         // Get sample data
         $email = $this->getSampleData();
 
+        // Mock success condition
         $this->mock(EmailServiceInterface::class, function ($mock){
            $mock->shouldReceive('send')->once()->andReturn(['status' => 'success']);
         });
 
         // Send email request
-        $response = $this->json('POST', route('email.service.api.v1.email.send'), $email);
+        $response = $this->sendRequest($email);
 
         // Is email saved in database?
         $this->assertCount(1, Email::all());
@@ -106,12 +137,6 @@ class EmailSendTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertJsonStructure([
-                'status',
-                'data' => [
-                    'sid'
-                ]
-            ])
             ->assertJson([
                 'status' => 'success',
             ]);
@@ -128,12 +153,13 @@ class EmailSendTest extends TestCase
         // Get sample data
         $email = $this->getSampleData();
 
+        // Mock fail condition
         $this->mock(EmailServiceInterface::class, function ($mock){
             $mock->shouldReceive('send')->once()->andReturn(['status' => 'fail']);
         });
 
         // Send email request
-        $response = $this->json('POST', route('email.service.api.v1.email.send'), $email);
+        $response = $this->sendRequest($email);
 
         // Is email saved in database?
         $this->assertCount(1, Email::all());
@@ -148,12 +174,6 @@ class EmailSendTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertJsonStructure([
-                'status',
-                'data' => [
-                    'sid'
-                ]
-            ])
             ->assertJson([
                 'status' => 'success',
             ]);
@@ -168,5 +188,19 @@ class EmailSendTest extends TestCase
     {
         $email = factory(Email::class)->raw()['data'];
         return $email;
+    }
+
+    /**
+     * Get email data, send and return response
+     *
+     * @param $email
+     *
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
+    public function sendRequest($email)
+    {
+        $response = $this->json('POST', route('email.service.api.v1.email.send'), $email);
+
+        return $response;
     }
 }
