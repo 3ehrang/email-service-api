@@ -60,7 +60,18 @@ class EmailController extends Controller
         }
 
         // Send data to email service
-        $this->emailService->send($all);
+        $result = $this->emailService->send($all);
+
+        // Update email record based on send result
+        if ($result['status'] == 'success') {
+
+            $this->emailEloquent->setAsSent($sid);
+
+        } else {
+
+            $this->emailEloquent->setAsFailed($sid);
+
+        }
 
         // Return success response
         return api_success($all,200);
