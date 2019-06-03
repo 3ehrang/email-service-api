@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\EmailService\Api\V1;
 
+use App\Services\Interfaces\EmailServiceInterface;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -43,13 +44,18 @@ class EmailSendTest extends TestCase
     }
 
     /**
-     * Test send email end-point
+     * Mock sending email process in order to prevent sending email in real world
      *
      * @test
      */
     public function can_send_email()
     {
+        // Get sample data
         $email = $this->getSampleData();
+
+        $this->mock(EmailServiceInterface::class, function ($mock){
+           $mock->shouldReceive('send')->once();
+        });
 
         // Send email request
         $response = $this->json('POST', route('email.service.api.v1.email.send'), $email);
@@ -57,7 +63,6 @@ class EmailSendTest extends TestCase
         // Is email saved in database?
         $this->assertCount(1, Email::all());
 
-        // Assert it was successful and response was acceptable
         $response
             ->assertStatus(200)
             ->assertJsonStructure([
