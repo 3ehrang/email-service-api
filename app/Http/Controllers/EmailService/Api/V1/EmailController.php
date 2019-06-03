@@ -42,7 +42,7 @@ class EmailController extends Controller
     {
         // Get input
         $input = $request->only(
-            'subject', 'from', 'fromName', 'to', 'toName', 'content', 'contentType'
+            'subject', 'from', 'fromName', 'to', 'toName', 'content', 'contentType', 'sid'
         );
 
         // Save Email data and handle error if happened
