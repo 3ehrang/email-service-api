@@ -63,6 +63,14 @@ class EmailSendTest extends TestCase
         // Is email saved in database?
         $this->assertCount(1, Email::all());
 
+        // Check email's status
+        $response->assertSee('sid');
+        $responseData = $response->decodeResponseJson('data');
+        $this->assertDatabaseHas('emails', [
+            'sid' => $responseData['sid'],
+            'status' => '2'
+        ]);
+
         $response
             ->assertStatus(200)
             ->assertJsonStructure([
