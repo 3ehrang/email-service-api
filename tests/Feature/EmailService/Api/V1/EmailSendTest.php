@@ -85,6 +85,47 @@ class EmailSendTest extends TestCase
     }
 
     /**
+     * Mock sending email process and check email sending failure
+     *
+     * @test
+     */
+    public function can_not_send_email()
+    {
+        // Get sample data
+        $email = $this->getSampleData();
+
+        $this->mock(EmailServiceInterface::class, function ($mock){
+            $mock->shouldReceive('send')->once()->andReturn(['status' => 'fail']);
+        });
+
+        // Send email request
+        $response = $this->json('POST', route('email.service.api.v1.email.send'), $email);
+
+        // Is email saved in database?
+        $this->assertCount(1, Email::all());
+
+        // Email's status must be 2 means is sent
+        $response->assertSee('sid');
+        $responseData = $response->decodeResponseJson('data');
+        $this->assertDatabaseHas('emails', [
+            'sid' => $responseData['sid'],
+            'status' => '3'
+        ]);
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                                      'status',
+                                      'data' => [
+                                          'sid'
+                                      ]
+                                  ])
+            ->assertJson([
+                             'status' => 'success',
+                         ]);
+    }
+
+    /**
      * Provide simple sending email data
      *
      * @return array
