@@ -25,8 +25,10 @@ class AddSidToEmailsTable extends Migration
      */
     public function down()
     {
-        Schema::table('emails', function (Blueprint $table) {
-            $table->dropColumn('sid');
-        });
+        if (Schema::hasColumn('emails', 'sid')) {
+            Schema::table('emails', function (Blueprint $table) {
+                $table->dropColumn('sid');
+            });
+        }
     }
 }
