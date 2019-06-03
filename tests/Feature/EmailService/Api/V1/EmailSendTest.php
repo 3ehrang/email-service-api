@@ -84,6 +84,6 @@ class EmailSendTest extends TestCase
     public function getSampleData()
     {
         $email = factory(Email::class)->raw()['data'];
-        return json_decode($email, true);
+        return $email;
     }
 }

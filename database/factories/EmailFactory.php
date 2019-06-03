@@ -40,13 +40,9 @@ $factory->define(Email::class, function (Faker $faker) {
 
     }
 
-    // Convert data to json
-    $data = json_encode($data);
-
     return [
         'sid' => 'sid-' . now()->format('ymds') . $faker->randomNumber(5),
         'status' => $faker->numberBetween(0, 3),
         'data' => $data,
-        'received_at' => now(),
     ];
 });

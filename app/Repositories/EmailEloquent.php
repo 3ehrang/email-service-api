@@ -20,9 +20,6 @@ class EmailEloquent implements EmailRepoInterface
      */
     public function create(array $attributes)
     {
-        $attributes['data'] = json_encode($attributes['data']);
-        $attributes['received_at'] = now();
-
         return Email::create($attributes);
     }
 }
