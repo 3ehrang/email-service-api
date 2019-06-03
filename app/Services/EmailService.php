@@ -5,7 +5,9 @@
 
 namespace App\Services;
 
+use App\Services\Email\Handler\PostmarkHandler;
 use App\Services\Email\Handler\SendGridHandler;
+use App\Services\Email\Handler\SendPulseHandler;
 use App\Services\Interfaces\EmailServiceInterface;
 
 /**
@@ -21,8 +23,15 @@ class EmailService implements EmailServiceInterface
      */
     public function send(array $attributes)
     {
+        // Define email handler
         $sendGridHandler    = new SendGridHandler(config('gateways.senders.sendGrid'));
+        $sendPulseHandler   = new SendPulseHandler(config('gateways.senders.sendPulse'));
+        $postmarkHandler    = new PostmarkHandler(config('gateways.senders.postMark'));
 
+        $sendGridHandler
+            ->linkWith($sendPulseHandler)
+            ->linkWith($postmarkHandler)
+        ;
         $result = $sendGridHandler->handle($attributes);
 
         if ($result['status'] == 'success') {
