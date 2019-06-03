@@ -14,6 +14,37 @@ class EmailSendTest extends TestCase
     use DatabaseMigrations, RefreshDatabase;
 
     /**
+     * @test
+     */
+    public function response_should_have_proper_data()
+    {
+        // Get sample data
+        $email = $this->getSampleData();
+
+        $this->mock(EmailServiceInterface::class, function ($mock){
+            $mock->shouldReceive('send')->once()->andReturn(['status' => 'success']);
+        });
+
+        // Send email request
+        $response = $this->json('POST', route('email.service.api.v1.email.send'), $email);
+
+        // Checking response dat structure
+        $response
+            ->assertJsonStructure([
+                'status',
+                'data' => [
+                    'subject',
+                    'from',
+                    'fromName',
+                    'to',
+                    'toName',
+                    'contentType',
+                    'content',
+                    'sid'
+                ]
+            ]);
+    }
+    /**
      * Test if database connection with emails table lost
      *
      * @test
