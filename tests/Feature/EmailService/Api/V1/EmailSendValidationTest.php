@@ -84,14 +84,36 @@ class EmailSendValidationTest extends TestCase
     }
 
     /**
+     * Email must has app_id
+     *
+     * @test
+     */
+    public function email_without_app_id_is_not_valid()
+    {
+        // Get sample data and remove content
+        $email = $this->getSampleData();
+        unset($email['app_id']);
+
+        // Send email request
+        $response = $this->sendRequest($email);
+
+        // Check failure response is correct
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors('app_id');
+    }
+
+    /**
      * Provide simple sending email data
      *
      * @return array
      */
     public function getSampleData()
     {
-        $email = factory(Email::class)->raw()['data'];
-        return $email;
+        $email = factory(Email::class)->raw();
+        $data = $email['data'];
+        $data['app_id'] = $email['app_id'];
+
+        return $data;
     }
 
     /**

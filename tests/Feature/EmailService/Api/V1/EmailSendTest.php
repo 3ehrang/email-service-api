@@ -17,7 +17,7 @@ class EmailSendTest extends TestCase
      * @test
      */
     public function success_response_should_have_proper_data()
-    {
+    {$this->withoutExceptionHandling();
         // Get sample data
         $email = $this->getSampleData();
 
@@ -190,8 +190,11 @@ class EmailSendTest extends TestCase
      */
     public function getSampleData()
     {
-        $email = factory(Email::class)->raw()['data'];
-        return $email;
+        $email = factory(Email::class)->raw();
+        $data = $email['data'];
+        $data['app_id'] = $email['app_id'];
+
+        return $data;
     }
 
     /**
