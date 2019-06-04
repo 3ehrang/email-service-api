@@ -41,6 +41,7 @@ $factory->define(Email::class, function (Faker $faker) {
     }
 
     return [
+        'app_id' => $faker->randomElement(['web', 'order', 'delivery', 'support']),
         'sid' => 'sid-' . now()->format('ymds') . $faker->randomNumber(5),
         'status' => $faker->numberBetween(0, 3),
         'data' => $data,

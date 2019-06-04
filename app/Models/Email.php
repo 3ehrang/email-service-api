@@ -12,7 +12,7 @@ class Email extends Model
      * @var array
      */
     protected $fillable = [
-        'sid', 'status', 'data', 'received_at', 'sent_at',
+        'app_id', 'sid', 'status', 'data', 'received_at', 'sent_at',
     ];
 
     /**

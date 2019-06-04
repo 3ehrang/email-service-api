@@ -24,6 +24,7 @@ class SendEmailPost extends FormRequest
     public function rules()
     {
         return [
+            'app_id' => 'required|string',
             'subject' => 'required|string',
             'from' => 'email',
             'fromName' => 'string',

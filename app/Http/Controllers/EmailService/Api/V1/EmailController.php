@@ -45,6 +45,7 @@ class EmailController extends Controller
             'subject', 'from', 'fromName', 'to', 'toName', 'content', 'contentType'
         );
         $sid = $request->input('sid');
+        $appId = $request->input('app_id');
 
         // Response Data
         $dataReturn = [
@@ -55,7 +56,7 @@ class EmailController extends Controller
         // Save Email data and handle error if happened
         try {
 
-            $this->emailEloquent->create(['data' => $emailData, 'sid' => $sid]);
+            $this->emailEloquent->create(['app_id' => $appId, 'sid' => $sid, 'data' => $emailData]);
 
         } catch (\Exception $e) {
 
