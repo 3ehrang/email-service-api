@@ -16,6 +16,9 @@
                 <li class="nav-item">
                     <a class="nav-link @if (Request::is('/')) {{'active btn btn-primary text-light'}} @endif" href="{{ route('page.home') }}">{{ __('Welcome') }}</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link @if (Request::is('dashboard')) {{'active btn btn-primary text-light'}} @endif" href="{{ route('page.dashboard') }}">{{ __('Dashboard') }}</a>
+                </li>
             </ul>
         </div>
     </div>

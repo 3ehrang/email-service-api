@@ -12,7 +12,8 @@
         <div class="col-6 col-md-4 text-left text-md-center">
             <h4>Site map</h4>
             <ul class="list-unstyled">
-                <li><a href="/">Welcome</a></li>
+                <li><a href="{{ route('page.home') }}">{{ __('Welcome') }}</a></li>
+                <li><a href="{{ route('page.dashboard') }}">{{ __('Dashboard') }}</a></li>
             </ul>
         </div>
         <div class="col-6 col-md-4  text-left text-md-center">
