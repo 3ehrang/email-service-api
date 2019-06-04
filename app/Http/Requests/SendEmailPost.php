@@ -26,8 +26,8 @@ class SendEmailPost extends FormRequest
         return [
             'app_id' => 'required|string',
             'subject' => 'required|string',
-            'from' => 'email',
-            'fromName' => 'string',
+            'from' => 'email|nullable',
+            'fromName' => 'string|nullable',
             'to' => 'required|email',
             'toName' => 'string',
             'contentType' => 'required|string',
