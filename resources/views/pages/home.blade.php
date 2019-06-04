@@ -48,6 +48,16 @@
                             <small class="text-muted"><a href="{{ route('page.dashboard') }}">{{ __('Dashboard') }}</a></small>
                         </div>
                     </div>
+                    <div class="card">
+                        <div class="col-auto pt-3"></div>
+                        <div class="card-body">
+                            <h5 class="card-title text-center">{{ __('Email') }} Page</h5>
+                            <p class="card-text">Send email and see email status</p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <small class="text-muted"><a href="{{ route('page.dashboard.emails') }}">{{ __('Email') }}</a></small>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
