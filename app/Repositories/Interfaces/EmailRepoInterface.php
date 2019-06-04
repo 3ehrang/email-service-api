@@ -30,4 +30,11 @@ interface EmailRepoInterface
      * @return boolean
      */
     public function setAsFailed($sid);
+
+    /**
+     * Get all records
+     *
+     * @return array
+     */
+    public function all();
 }
