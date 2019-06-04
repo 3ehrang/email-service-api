@@ -14,6 +14,7 @@
             <ul class="list-unstyled">
                 <li><a href="{{ route('page.home') }}">{{ __('Welcome') }}</a></li>
                 <li><a href="{{ route('page.dashboard') }}">{{ __('Dashboard') }}</a></li>
+                <li><a href="{{ route('page.dashboard.emails') }}">{{ __('Emails') }}</a></li>
             </ul>
         </div>
         <div class="col-6 col-md-4  text-left text-md-center">
