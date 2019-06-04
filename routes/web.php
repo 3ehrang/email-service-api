@@ -11,6 +11,12 @@
 |
 */
 
+// Home page
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('pages.home');
+})->name('page.home');
+
+// Email page
+Route::get('/emails', function () {
+    return view('pages.emails');
+})->name('page.dashboard.emails');

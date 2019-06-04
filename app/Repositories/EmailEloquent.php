@@ -30,4 +30,9 @@ class EmailEloquent implements EmailRepoInterface
 
         return Email::where('sid', $sid)->update($update);
     }
+
+    public function all()
+    {
+        return Email::all()->toArray();
+    }
 }

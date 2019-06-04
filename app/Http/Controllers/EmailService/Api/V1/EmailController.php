@@ -32,6 +32,16 @@ class EmailController extends Controller
     }
 
     /**
+     * Return all emails
+     *
+     * @return array
+     */
+    public function index()
+    {
+        return $this->emailEloquent->all();
+    }
+
+    /**
      * Get email data and send it
      *
      * @param SendEmailPost $request

@@ -29,5 +29,8 @@ Route::group([
     // Send email
     Route::post('emails', 'EmailController@send')->name('email.send');
 
+    // Get emails
+    Route::get('emails', 'EmailController@index')->name('emails.index');
+
 });
 
