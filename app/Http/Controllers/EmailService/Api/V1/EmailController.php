@@ -41,26 +41,31 @@ class EmailController extends Controller
     public function send(SendEmailPost $request)
     {
         // Get input data
-        $data = $request->only(
+        $emailData = $request->only(
             'subject', 'from', 'fromName', 'to', 'toName', 'content', 'contentType'
         );
         $sid = $request->input('sid');
-        $all = $request->all();
+
+        // Response Data
+        $dataReturn = [
+            'sid' => $sid,
+            'received' => $emailData
+        ];
 
         // Save Email data and handle error if happened
         try {
 
-            $this->emailEloquent->create(['data' => $data, 'sid' => $sid]);
+            $this->emailEloquent->create(['data' => $emailData, 'sid' => $sid]);
 
         } catch (\Exception $e) {
 
             // Return error response
-            return api_error('Unable to communicate with database.', 422, $all);
+            return api_error('Unable to communicate with database.', 422, $dataReturn);
 
         }
 
         // Send data to email service
-        $result = $this->emailService->send($all);
+        $result = $this->emailService->send($request->all());
 
         // Update email record based on send result
         if ($result['status'] == 'success') {
@@ -74,6 +79,6 @@ class EmailController extends Controller
         }
 
         // Return success response
-        return api_success($all,200);
+        return api_success($dataReturn,200);
     }
 }

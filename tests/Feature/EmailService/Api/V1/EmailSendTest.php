@@ -34,14 +34,16 @@ class EmailSendTest extends TestCase
             ->assertJsonStructure([
                 'status',
                 'data' => [
-                    'subject',
-                    'from',
-                    'fromName',
-                    'to',
-                    'toName',
-                    'contentType',
-                    'content',
-                    'sid'
+                    'sid',
+                    'received' => [
+                        'subject',
+                        'from',
+                        'fromName',
+                        'to',
+                        'toName',
+                        'contentType',
+                        'content',
+                    ]
                 ]
             ]);
     }
@@ -67,14 +69,16 @@ class EmailSendTest extends TestCase
             ->assertJsonStructure([
                 'status',
                 'data' => [
-                    'subject',
-                    'from',
-                    'fromName',
-                    'to',
-                    'toName',
-                    'contentType',
-                    'content',
-                    'sid'
+                    'sid',
+                    'received' => [
+                        'subject',
+                        'from',
+                        'fromName',
+                        'to',
+                        'toName',
+                        'contentType',
+                        'content',
+                    ]
                 ]
             ]);
     }
