@@ -4,17 +4,15 @@ namespace Tests\Feature\EmailService\Api\V1;
 
 use App\Jobs\ProcessSaveEmail;
 use App\Jobs\ProcessSendEmail;
-use App\Services\Interfaces\EmailServiceInterface;
 use Illuminate\Support\Facades\Bus;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Email;
-use Illuminate\Support\Facades\Schema;
 
 class EmailSendTest extends TestCase
 {
-    //use DatabaseMigrations, RefreshDatabase;
+    use DatabaseMigrations, RefreshDatabase;
 
     /**
      * @test
