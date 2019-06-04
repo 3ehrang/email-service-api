@@ -16,7 +16,12 @@ Route::get('/', function () {
     return view('pages.home');
 })->name('page.home');
 
-// Dashboard
+// Dashboard page
 Route::get('/dashboard', function () {
     return view('pages.dashboard');
 })->name('page.dashboard');
+
+// Email page
+Route::get('/emails', function () {
+    return view('pages.emails');
+})->name('page.dashboard.emails');
