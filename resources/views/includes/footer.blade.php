@@ -1,9 +1,4 @@
 <div class="container">
-    <div class="row mb-4">
-        <a class="navbar-brand col-12" href="#">
-            <img src="" width="171" height="55" class="d-inline-block align-top" alt="Chance Pack">
-        </a>
-    </div>
     <div class="row">
         <div class="col-12 col-md-4">
             <h4>About Us</h4>

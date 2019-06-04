@@ -3,7 +3,7 @@
         <div class="form-group">
             <router-link
                 :to="{name: 'EmailCreate'}"
-                class="btn btn-success btn-sm my-3"
+                class="btn btn-success btn-sm my-3 text-light"
             >
                 <i class="far fa-file"></i> Create a New Email
             </router-link>
