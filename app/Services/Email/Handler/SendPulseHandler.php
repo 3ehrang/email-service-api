@@ -18,7 +18,7 @@ class SendPulseHandler extends AbstractEmailHandler
 
         if ($result['status'] != 'success') {
 
-            // TODO: Implement log email data.
+            $this->logger->info(__METHOD__, $result);
 
         }
 

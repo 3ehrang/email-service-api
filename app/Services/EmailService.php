@@ -5,11 +5,11 @@
 
 namespace App\Services;
 
-use App\Repositories\EmailEloquent;
 use App\Services\Email\Handler\PostmarkHandler;
 use App\Services\Email\Handler\SendGridHandler;
 use App\Services\Email\Handler\SendPulseHandler;
 use App\Services\Interfaces\EmailServiceInterface;
+use Log;
 
 /**
  * Class EmailService
@@ -25,9 +25,9 @@ class EmailService implements EmailServiceInterface
     public function send(array $attributes)
     {
         // Define email handler
-        $sendGridHandler    = new SendGridHandler(config('gateways.senders.sendGrid'));
-        $sendPulseHandler   = new SendPulseHandler(config('gateways.senders.sendPulse'));
-        $postmarkHandler    = new PostmarkHandler(config('gateways.senders.postMark'));
+        $sendGridHandler    = new SendGridHandler(config('gateways.senders.sendGrid'), Log::getLogger());
+        $sendPulseHandler   = new SendPulseHandler(config('gateways.senders.sendPulse'), Log::getLogger());
+        $postmarkHandler    = new PostmarkHandler(config('gateways.senders.postMark'), Log::getLogger());
 
         $sendGridHandler
             ->linkWith($sendPulseHandler)

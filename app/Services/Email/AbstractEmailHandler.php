@@ -2,6 +2,8 @@
 
 namespace App\Services\Email;
 
+use Psr\Log\LoggerInterface;
+
 /**
  * The default chaining behavior for Email handlers defined here.
  */
@@ -19,9 +21,21 @@ abstract class AbstractEmailHandler implements EmailHandlerInterface
      */
     protected $config;
 
-    public function __construct($config)
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
+     * AbstractEmailHandler constructor.
+     *
+     * @param array           $config
+     * @param LoggerInterface $logger
+     */
+    public function __construct($config, LoggerInterface $logger)
     {
         $this->config = $config;
+        $this->logger = $logger;
     }
 
     /**

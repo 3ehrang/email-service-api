@@ -17,9 +17,10 @@ class SendGridHandler extends AbstractEmailHandler
         $emailGateway = new EmailGateway($this->config['handler'], $email, $this->config);
         $result = $emailGateway->send();
 
+        // If success log data
         if ($result['status'] == 'success') {
 
-            // TODO: Implement log email data.
+            $this->logger->info(__METHOD__, $result);
 
         }
 
