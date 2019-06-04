@@ -8,17 +8,41 @@
 
             <div class="form-group">
                 <label for="subject">Subject</label>
-                <input type="text" v-model="form.subject" name="subject" id="subject" class="form-control">
+                <input
+                    type="text"
+                    v-model="form.subject"
+                    :class="form.errors.has('subject') ? 'is-invalid' : ''"
+                    name="subject"
+                    id="subject"
+                    class="form-control"
+                >
+                <field-errors v-if="form.errors.has('subject')" v-bind:messages="form.errors.get('subject')" ></field-errors>
             </div>
 
             <div class="form-group">
                 <label for="to">To</label>
-                <input type="text" v-model="form.to" name="to" id="to" class="form-control">
+                <input
+                    type="text"
+                    v-model="form.to"
+                    :class="form.errors.has('to') ? 'is-invalid' : ''"
+                    name="to"
+                    id="to"
+                    class="form-control"
+                >
+                <field-errors v-if="form.errors.has('to')" v-bind:messages="form.errors.get('to')" ></field-errors>
             </div>
 
             <div class="form-group">
                 <label for="toName">To Name</label>
-                <input type="text" v-model="form.toName" name="toName" id="toName" class="form-control">
+                <input
+                    type="text"
+                    v-model="form.toName"
+                    :class="form.errors.has('toName') ? 'is-invalid' : ''"
+                    name="toName"
+                    id="toName"
+                    class="form-control"
+                >
+                <field-errors v-if="form.errors.has('toName')" v-bind:messages="form.errors.get('toName')" ></field-errors>
             </div>
 
             <div class="form-group">
@@ -31,7 +55,16 @@
 
             <div class="form-group">
                 <label for="content">Content</label>
-                <textarea v-model="form.content" name="content" class="form-control" id="content" rows="3"></textarea>
+                <textarea
+                    v-model="form.content"
+                    :class="form.errors.has('content') ? 'is-invalid' : ''"
+                    name="content"
+                    class="form-control"
+                    id="content"
+                    rows="3"
+                >
+                </textarea>
+                <field-errors v-if="form.errors.has('content')" v-bind:messages="form.errors.get('content')" ></field-errors>
             </div>
 
             <input type="hidden" name="app_id" v-model="form.app_id">
@@ -44,6 +77,9 @@
 
 <script>
 
+    import Form from '../../core/Form';
+    import FieldErrors from '../../core/form/FieldErrors';
+
     export default {
 
         name: 'EmailCreate',
@@ -51,7 +87,7 @@
         data() {
             return {
 
-                form:
+                form: new Form(
                     {
                         subject: '',
                         to: '',
@@ -61,7 +97,8 @@
                         contentType: 'text/html',
                         content: '',
                         app_id: 'webInterface'
-                    },
+                    }
+                ),
             }
         },
 
@@ -69,24 +106,23 @@
 
             onSubmit() {
 
-                let formData = new FormData();
-                for (let field in this.form) {
-                    formData.append(field, this.form[field]);
-                }
-
-                axios.post('/api/emailservice/v1/emails', formData, { headers: { 'Content-Type': 'multipart/form-data'}})
+                this.form.submit('post', '/api/emailservice/v1/emails')
 
                     .then(data => {
 
                         this.$router.push({path: '/'});
                     })
 
-                    .catch(error => {
-                        console.log(error);
-                    });
+                    .catch(errors => console.log(errors));
+
             },
 
         },
+
+        components: {
+
+            FieldErrors,
+        }
 
     }
 
