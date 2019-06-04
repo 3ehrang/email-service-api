@@ -10,9 +10,10 @@ interface EmailServiceInterface
 {
 
     /**
-     * @param array $attributes
+     * @param string $sid Request service Id
+     * @param array $attributes Email sending data
      *
      * @return mixed
      */
-    public function send(array $attributes);
+    public function send($sid, array $attributes);
 }
