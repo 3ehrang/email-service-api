@@ -10,6 +10,15 @@ interface EmailServiceInterface
 {
 
     /**
+     * Get an array of attributes and create a record in emails table
+     *
+     * @param array $attributes
+     *
+     * @return array
+     */
+    public function create(array $attributes);
+
+    /**
      * @param string $sid Request service Id
      * @param array $attributes Email sending data
      *

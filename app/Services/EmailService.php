@@ -5,7 +5,7 @@
 
 namespace App\Services;
 
-use App\Repositories\EmailEloquent;
+use App\Repositories\Interfaces\EmailRepoInterface;
 use App\Services\Interfaces\EmailServiceInterface;
 
 /**
@@ -14,6 +14,27 @@ use App\Services\Interfaces\EmailServiceInterface;
  */
 class EmailService implements EmailServiceInterface
 {
+
+    /**
+     * @var EmailRepoInterface
+     */
+    protected $emailEloquent;
+
+    /**
+     * EmailService constructor.
+     *
+     * @param EmailRepoInterface $emailEloquent
+     */
+    public function __construct(EmailRepoInterface $emailEloquent)
+    {
+        $this->emailEloquent = $emailEloquent;
+    }
+
+    public function create(array $attributes)
+    {
+        return $this->emailEloquent->create($attributes);
+    }
+
     public function send($sid, array $attributes)
     {
         $emailHandler = new EmailHandler();
@@ -21,15 +42,17 @@ class EmailService implements EmailServiceInterface
         $result = $emailHandler->send($attributes);
 
         // Update email record based on send result
-        $EmailElq = new EmailEloquent();
         if ($result['status'] == 'success') {
 
-            $EmailElq->setAsSent($sid);
+            $this->emailEloquent->setAsSent($sid);
 
         } else {
 
-            $EmailElq->setAsFailed($sid);
+            $this->emailEloquent->setAsFailed($sid);
 
         }
+
+        return $result;
+
     }
 }

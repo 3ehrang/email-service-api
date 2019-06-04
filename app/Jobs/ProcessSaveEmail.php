@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Repositories\EmailEloquent;
+use App\Services\Interfaces\EmailServiceInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -33,12 +33,13 @@ class ProcessSaveEmail implements ShouldQueue
     /**
      * Execute the job.
      *
+     * @param EmailServiceInterface $emailService
+     *
      * @return void
      */
-    public function handle()
+    public function handle(EmailServiceInterface $emailService)
     {
         // Save email in emails table
-        $emailElq = new EmailEloquent();
-        $emailElq->create($this->data);
+        $emailService->create($this->data);
     }
 }

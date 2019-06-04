@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Services\EmailService;
+use App\Services\Interfaces\EmailServiceInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -40,11 +40,12 @@ class ProcessSendEmail implements ShouldQueue
     /**
      * Execute the job.
      *
+     * @param EmailServiceInterface $emailService
+     *
      * @return void
      */
-    public function handle()
+    public function handle(EmailServiceInterface $emailService)
     {
-        $emailService = new EmailService();
         $emailService->send($this->sid, $this->data);
     }
 }
