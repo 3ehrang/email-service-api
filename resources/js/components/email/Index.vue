@@ -1,6 +1,12 @@
 <template>
     <div>
         <div class="form-group">
+            <router-link
+                :to="{name: 'EmailCreate'}"
+                class="btn btn-success btn-sm my-3"
+            >
+                <i class="far fa-file"></i> Create a New Email
+            </router-link>
         </div>
 
         <div class="panel panel-default">

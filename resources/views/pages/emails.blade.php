@@ -8,6 +8,7 @@
                     <div class="panel-heading"><h3>Email</h3></div>
                     <div class="panel-body table-responsive">
                         <router-view name="EmailIndex"></router-view>
+                        <router-view></router-view>
                     </div>
                 </div>
             </div>

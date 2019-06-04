@@ -16,6 +16,7 @@ window.Vue.use(VueRouter);
  * Define component
  */
 import EmailIndex from './components/email/Index.vue';
+import EmailCreate from './components/email/Create.vue';
 
 /**
  * Define routes
@@ -26,7 +27,13 @@ const routes = [
         components: {
             EmailIndex: EmailIndex
         }
-    }
+    },
+
+    {
+        path: '/create',
+        component: EmailCreate,
+        name: 'EmailCreate'
+    },
 ]
 
 /**
