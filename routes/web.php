@@ -14,4 +14,9 @@
 // Home page
 Route::get('/', function () {
     return view('pages.home');
-})->name('page.home');;
+})->name('page.home');
+
+// Dashboard
+Route::get('/dashboard', function () {
+    return view('pages.dashboard');
+})->name('page.dashboard');
