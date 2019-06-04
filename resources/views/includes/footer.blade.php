@@ -8,7 +8,6 @@
             <h4>Site map</h4>
             <ul class="list-unstyled">
                 <li><a href="{{ route('page.home') }}">{{ __('Welcome') }}</a></li>
-                <li><a href="{{ route('page.dashboard') }}">{{ __('Dashboard') }}</a></li>
                 <li><a href="{{ route('page.dashboard.emails') }}">{{ __('Emails') }}</a></li>
             </ul>
         </div>

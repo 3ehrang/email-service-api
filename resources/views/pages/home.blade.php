@@ -27,6 +27,7 @@
                 </div>
             </div>
             <div class="row mt-3">
+
                 <div class="card-deck">
                     <div class="card">
                         <div class="col-auto pt-3"></div>
@@ -38,16 +39,7 @@
                             <small class="text-muted"><a href="/">Welcome</a></small>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="col-auto pt-3"></div>
-                        <div class="card-body">
-                            <h5 class="card-title text-center">{{ __('Dashboard') }} Page</h5>
-                            <p class="card-text"></p>
-                        </div>
-                        <div class="card-footer text-center">
-                            <small class="text-muted"><a href="{{ route('page.dashboard') }}">{{ __('Dashboard') }}</a></small>
-                        </div>
-                    </div>
+
                     <div class="card">
                         <div class="col-auto pt-3"></div>
                         <div class="card-body">
@@ -58,6 +50,7 @@
                             <small class="text-muted"><a href="{{ route('page.dashboard.emails') }}">{{ __('Email') }}</a></small>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
