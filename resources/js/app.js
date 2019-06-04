@@ -7,6 +7,15 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+// Add vue router
+import VueRouter from 'vue-router';
+window.Vue.use(VueRouter);
+
+
+/**
+ * Define routes
+ */
+const routes = []
 
 /**
  * The following block of code may be used to automatically register your
@@ -29,4 +38,5 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
+    router
 });
