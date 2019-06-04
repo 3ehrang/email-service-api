@@ -4,6 +4,8 @@ namespace App\Http\Controllers\EmailService\Api\V1;
 
 use App\Http\Requests\SendEmailPost;
 use App\Http\Controllers\Controller;
+use App\Jobs\ProcessSaveEmail;
+use App\Jobs\ProcessSendEmail;
 use App\Repositories\Interfaces\EmailRepoInterface;
 use App\Services\Interfaces\EmailServiceInterface;
 
@@ -63,31 +65,23 @@ class EmailController extends Controller
             'received' => $emailData
         ];
 
-        // Save Email data and handle error if happened
-        try {
+        // Send to queue for saving incoming data
+        $saveData = [
+            'app_id' => $appId,
+            'sid' => $sid,
+            'received_at' => now(),
+            'data' => $emailData
+        ];
+        ProcessSaveEmail::dispatch($saveData)
+            ->delay(now()->addSeconds(10))
+            ->onQueue('saveEmail')
+        ;
 
-            $this->emailEloquent->create(['app_id' => $appId, 'sid' => $sid, 'data' => $emailData]);
-
-        } catch (\Exception $e) {
-
-            // Return error response
-            return api_error('Unable to communicate with database.', 422, $dataReturn);
-
-        }
-
-        // Send data to email service
-        $result = $this->emailService->send($request->all());
-
-        // Update email record based on send result
-        if ($result['status'] == 'success') {
-
-            $this->emailEloquent->setAsSent($sid);
-
-        } else {
-
-            $this->emailEloquent->setAsFailed($sid);
-
-        }
+        // Send to queue for sending email
+        ProcessSendEmail::dispatch($sid, $emailData)
+            ->delay(now()->addSeconds(20))
+            ->onQueue('sendEmail')
+        ;
 
         // Return success response
         return api_success($dataReturn,200);
