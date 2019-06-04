@@ -5,11 +5,8 @@
 
 namespace App\Services;
 
-use App\Services\Email\Handler\PostmarkHandler;
-use App\Services\Email\Handler\SendGridHandler;
-use App\Services\Email\Handler\SendPulseHandler;
+use App\Repositories\EmailEloquent;
 use App\Services\Interfaces\EmailServiceInterface;
-use Log;
 
 /**
  * Class EmailService
@@ -17,25 +14,22 @@ use Log;
  */
 class EmailService implements EmailServiceInterface
 {
-    /**
-     * @param array $attributes
-     *
-     * @return mixed
-     */
-    public function send(array $attributes)
+    public function send($sid, array $attributes)
     {
-        // Define email handler
-        $sendGridHandler    = new SendGridHandler(config('gateways.senders.sendGrid'), Log::getLogger());
-        $sendPulseHandler   = new SendPulseHandler(config('gateways.senders.sendPulse'), Log::getLogger());
-        $postmarkHandler    = new PostmarkHandler(config('gateways.senders.postMark'), Log::getLogger());
+        $emailHandler = new EmailHandler();
 
-        $sendGridHandler
-            ->linkWith($sendPulseHandler)
-            ->linkWith($postmarkHandler)
-        ;
-        $result = $sendGridHandler->handle($attributes);
+        $result = $emailHandler->send($attributes);
 
-        return $result;
+        // Update email record based on send result
+        $EmailElq = new EmailEloquent();
+        if ($result['status'] == 'success') {
 
+            $EmailElq->setAsSent($sid);
+
+        } else {
+
+            $EmailElq->setAsFailed($sid);
+
+        }
     }
 }
