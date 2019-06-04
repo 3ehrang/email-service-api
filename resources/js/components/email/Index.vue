@@ -13,7 +13,7 @@
                         <th>App</th>
                         <th>Status</th>
                         <th>ServiceId</th>
-                        <th>Receive At</th>
+                        <th>Received At</th>
                         <th>Sent At</th>
                         <th>Created At</th>
                         <th>Updated At</th>
@@ -22,10 +22,10 @@
                     <tbody>
                     <tr v-for="item, index in items">
                         <td>{{ item.id }}</td>
-                        <td>{{ item.app }}</td>
+                        <td>{{ item.app_id }}</td>
                         <td>{{ getStatus(item.status) }}</td>
-                        <td>{{ item.serviceId }}</td>
-                        <td>{{ item.receive_at }}</td>
+                        <td>{{ item.sid }}</td>
+                        <td>{{ item.received_at }}</td>
                         <td>{{ item.sent_at }}</td>
                         <td>{{ item.created_at }}</td>
                         <td>{{ item.updated_at }}</td>
@@ -51,7 +51,7 @@
 
         mounted() {
 
-            axios.get('/api/v1/emails')
+            axios.get('/api/emailservice/v1/emails')
 
                 .then(response => {
                     this.items = response.data;
