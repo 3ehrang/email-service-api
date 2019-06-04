@@ -66,6 +66,13 @@ return [
             'block_for' => null,
         ],
 
+        'email' => [
+            'driver' => 'database',
+            'table' => 'jobs',
+            'queue' => 'saveEmail,sendEmail',
+            'retry_after' => 90,
+        ],
+
     ],
 
     /*
