@@ -97,13 +97,6 @@ abstract class AbstractEmailHandler implements EmailHandlerInterface {
         $emailGateway = new EmailGateway($this->config['handler'], $email, $this->config);
         $result = $emailGateway->send();
 
-        // If success log data
-        if ($result['status'] == 'success') {
-
-            $this->logger->info(__METHOD__, $result);
-
-        }
-
         return $result;
     }
 }

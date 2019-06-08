@@ -62,10 +62,13 @@ class EmailService implements EmailServiceInterface
         if ($result['status'] == 'success') {
 
             $this->emailEloquent->setAsSent($sid);
+            Log::info(__METHOD__, $result);
 
         } else {
 
             $this->emailEloquent->setAsFailed($sid);
+
+            // TODO: Worst case scenario for failed
 
         }
 
