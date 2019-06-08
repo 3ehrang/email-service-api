@@ -36,6 +36,14 @@ class EmailService implements EmailServiceInterface
         return $this->emailEloquent->create($attributes);
     }
 
+    /**
+     * Send email and update emails table based on result staus
+     *
+     * @param string $sid Request service Id
+     * @param array $attributes Email sending data
+     *
+     * @return mixed
+     */
     public function send($sid, array $attributes)
     {
         $emailHandler = new EmailHandler();
@@ -54,6 +62,5 @@ class EmailService implements EmailServiceInterface
         }
 
         return $result;
-
     }
 }
