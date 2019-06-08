@@ -15,6 +15,8 @@ return [
     |
     | Available Handler: "sendGrid", "sendPulse", "postMark", ...
     |
+    | "from" and "fromName" are used as default email sending when incoming request doesn't send these fields
+    |
     */
 
     'senders' => [
