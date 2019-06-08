@@ -33,7 +33,6 @@ abstract class ArrayData
                 $this->setAttribute($key, $value);
             }
         }
-
     }
 
     /**
@@ -47,12 +46,6 @@ abstract class ArrayData
      */
     public function setAttribute($key, $value)
     {
-        if (!$this->isKeyExist($key)) {
-
-            throw new \Exception(' Unknown key ' . $key . ' in fillable list');
-
-        }
-
         $this->attributes[$key] = $value;
 
         return $this;
@@ -68,12 +61,8 @@ abstract class ArrayData
     {
         if (!$this->isKeyExist($key)) {
 
-            throw new \Exception('Key in not exist');
+            throw new \Exception(' Unknown key ' . $key . ' in list');
 
-        }
-
-        if (method_exists($this, 'get'.ucfirst($key).'Attribute')) {
-            $value = $this->{'get'.ucfirst($key).'Attribute'}($value);
         }
 
         return $this->attributes[$key];
@@ -81,12 +70,20 @@ abstract class ArrayData
 
     /**
      * Get all attributes in array format
+     * Only return values defined in fillable data
      *
-     * @return string
+     * @return array
      */
     public function toArray()
     {
-        return $this->attributes;
+        $data = [];
+
+        foreach ($this->attributes as $key => $value) {
+            if ($this->isKeyExist($key)) {
+                $data[$key] = $value;
+            }
+        }
+        return $data;
     }
 
     /**
