@@ -66,7 +66,7 @@ return [
             'block_for' => null,
         ],
 
-        'email' => [
+        'bifrost' => [
             'driver' => 'database',
             'table' => 'jobs',
             'queue' => 'saveEmail,sendEmail',
