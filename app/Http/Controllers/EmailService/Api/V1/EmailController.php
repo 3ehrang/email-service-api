@@ -6,6 +6,7 @@ use App\Http\Requests\SendEmailPost;
 use App\Http\Controllers\Controller;
 use App\Jobs\ProcessSaveEmail;
 use App\Jobs\ProcessSendEmail;
+use App\Models\Data\EmailData;
 use App\Repositories\Interfaces\EmailRepoInterface;
 use App\Services\Email\EmailServiceInterface;
 
@@ -59,10 +60,13 @@ class EmailController extends Controller
         $sid = $request->input('sid');
         $appId = $request->input('app_id');
 
+        // Create EmailData model
+        $emailDataModel = new EmailData($emailData);
+
         // Response Data
         $dataReturn = [
             'sid' => $sid,
-            'received' => $emailData
+            'received' => $emailDataModel->toArray()
         ];
 
         // Send to queue for saving incoming data
@@ -70,7 +74,7 @@ class EmailController extends Controller
             'app_id' => $appId,
             'sid' => $sid,
             'received_at' => now(),
-            'data' => $emailData
+            'data' => $emailDataModel->toArray()
         ];
         ProcessSaveEmail::dispatch($saveData)
             ->delay(now()->addSeconds(10))
@@ -78,7 +82,7 @@ class EmailController extends Controller
         ;
 
         // Send to queue for sending email
-        ProcessSendEmail::dispatch($sid, $emailData)
+        ProcessSendEmail::dispatch($sid, $emailDataModel->toArray())
             ->delay(now()->addSeconds(20))
             ->onQueue('sendEmail')
         ;
