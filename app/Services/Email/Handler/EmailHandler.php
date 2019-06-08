@@ -5,9 +5,9 @@
 
 namespace App\Services\Email\Handler;
 
-use App\Services\Email\Handler\PostmarkHandler;
-use App\Services\Email\Handler\SendGridHandler;
-use App\Services\Email\Handler\SendPulseHandler;
+use App\Services\Email\Handler\Handlers\PostmarkHandler;
+use App\Services\Email\Handler\Handlers\SendGridHandler;
+use App\Services\Email\Handler\Handlers\SendPulseHandler;
 use Log;
 
 /**
