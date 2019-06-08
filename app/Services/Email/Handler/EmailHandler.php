@@ -5,10 +5,7 @@
 
 namespace App\Services\Email\Handler;
 
-use App\Services\Email\Handler\Handlers\PostmarkHandler;
-use App\Services\Email\Handler\Handlers\SendGridHandler;
-use App\Services\Email\Handler\Handlers\SendPulseHandler;
-use Log;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class EmailService
@@ -16,23 +13,50 @@ use Log;
  */
 class EmailHandler
 {
+
     /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
+     * EmailHandler constructor.
+     *
+     * @param LoggerInterface $logger
+     */
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * @param EmailHandlerInterface[] $handlers
      * @param array $attributes
      *
      * @return mixed
      */
-    public function send(array $attributes)
+    public function send(array $handlers, $attributes)
     {
-        // Define email handler
-        $sendGridHandler    = new SendGridHandler(config('gateways.senders.sendGrid'), Log::getLogger());
-        $sendPulseHandler   = new SendPulseHandler(config('gateways.senders.sendPulse'), Log::getLogger());
-        $postmarkHandler    = new PostmarkHandler(config('gateways.senders.postMark'), Log::getLogger());
+        /* @var $prepareHandlers EmailHandlerInterface[] */
+        $prepareHandlers = [];
 
-        $sendGridHandler
-            ->linkWith($sendPulseHandler)
-            ->linkWith($postmarkHandler)
-        ;
-        $result = $sendGridHandler->handle($attributes);
+        /**
+         * $handler[0] = classname
+         * $handler[1] = config
+         */
+        foreach ($handlers as $handler) {
+            $prepareHandlers[] = new $handler[0]($handler[1], $this->logger);
+        }
+
+        // Fill each handler with next handler
+        foreach ($prepareHandlers as $i => $prepareHandler) {
+
+            if ($i+1 < count($prepareHandlers)) {
+                $prepareHandler->linkWith($prepareHandlers[$i+1]);
+            }
+        }
+
+        $result = $prepareHandlers[0]->handle($attributes);
 
         return $result;
     }
