@@ -8,6 +8,10 @@ namespace App\Services\Email;
 use App\Repositories\Interfaces\EmailRepoInterface;
 use App\Services\Email\EmailServiceInterface;
 use App\Services\Email\Handler\EmailHandler;
+use App\Services\Email\Handler\Handlers\PostmarkHandler;
+use App\Services\Email\Handler\Handlers\SendGridHandler;
+use App\Services\Email\Handler\Handlers\SendPulseHandler;
+use Log;
 
 /**
  * Class EmailService
@@ -46,9 +50,13 @@ class EmailService implements EmailServiceInterface
      */
     public function send($sid, array $attributes)
     {
-        $emailHandler = new EmailHandler();
+        $emailHandler = new EmailHandler(Log::getLogger());
 
-        $result = $emailHandler->send($attributes);
+        $result = $emailHandler->send([
+            [SendGridHandler::class, config('gateways.senders.sendGrid')],
+            [SendPulseHandler::class, config('gateways.senders.sendPulse')],
+            [PostmarkHandler::class, config('gateways.senders.postMark')]
+        ], $attributes);
 
         // Update email record based on send result
         if ($result['status'] == 'success') {
