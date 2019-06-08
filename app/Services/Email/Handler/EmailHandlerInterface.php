@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Email;
+namespace App\Services\Email\Handler;
 
 /**
  * The Handler interface declares a method for building the chain of handlers.

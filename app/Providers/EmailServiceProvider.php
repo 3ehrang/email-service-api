@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Services\EmailService;
-use App\Services\Interfaces\EmailServiceInterface;
+use App\Services\Email\EmailService;
+use App\Services\Email\EmailServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class EmailServiceProvider extends ServiceProvider

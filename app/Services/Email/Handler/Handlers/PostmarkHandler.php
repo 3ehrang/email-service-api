@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Email\Handler;
+namespace App\Services\Email\Handler\Handlers;
 
-use App\Services\Email\AbstractEmailHandler;
+use App\Services\Email\Handler\AbstractEmailHandler;
 
 class PostmarkHandler extends AbstractEmailHandler
 {

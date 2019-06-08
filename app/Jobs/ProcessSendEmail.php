@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Services\Interfaces\EmailServiceInterface;
+use App\Services\Email\EmailServiceInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -28,6 +28,9 @@ class ProcessSendEmail implements ShouldQueue
 
     /**
      * Create a new job instance.
+     *
+     * @param $sid
+     * @param  $data
      *
      * @return void
      */

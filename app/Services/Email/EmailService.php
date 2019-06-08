@@ -3,10 +3,11 @@
  * Email service for sending, storing and retrieving emails.
  */
 
-namespace App\Services;
+namespace App\Services\Email;
 
 use App\Repositories\Interfaces\EmailRepoInterface;
-use App\Services\Interfaces\EmailServiceInterface;
+use App\Services\Email\EmailServiceInterface;
+use App\Services\Email\Handler\EmailHandler;
 
 /**
  * Class EmailService

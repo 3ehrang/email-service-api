@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Email;
+namespace App\Services\Email\Handler;
 
 use Psr\Log\LoggerInterface;
 use EmailGateway\EmailGateway;

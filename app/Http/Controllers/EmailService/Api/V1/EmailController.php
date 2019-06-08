@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Jobs\ProcessSaveEmail;
 use App\Jobs\ProcessSendEmail;
 use App\Repositories\Interfaces\EmailRepoInterface;
-use App\Services\Interfaces\EmailServiceInterface;
+use App\Services\Email\EmailServiceInterface;
 
 class EmailController extends Controller
 {

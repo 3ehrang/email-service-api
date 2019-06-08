@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Lib\ServiceIdentifier;
-use App\Services\Interfaces\EmailServiceInterface;
+use App\Services\Email\EmailServiceInterface;
 use Illuminate\Console\Command;
 
 class SendEmails extends Command

@@ -3,7 +3,7 @@
  * Email Handler for sending emails via different platforms.
  */
 
-namespace App\Services;
+namespace App\Services\Email\Handler;
 
 use App\Services\Email\Handler\PostmarkHandler;
 use App\Services\Email\Handler\SendGridHandler;
