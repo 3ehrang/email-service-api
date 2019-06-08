@@ -3,12 +3,13 @@
 namespace App\Services\Email;
 
 use Psr\Log\LoggerInterface;
+use EmailGateway\EmailGateway;
 
 /**
  * The default chaining behavior for Email handlers defined here.
  */
-abstract class AbstractEmailHandler implements EmailHandlerInterface
-{
+abstract class AbstractEmailHandler implements EmailHandlerInterface {
+
     /**
      * @var AbstractEmailHandler
      */
@@ -49,6 +50,7 @@ abstract class AbstractEmailHandler implements EmailHandlerInterface
     final public function linkWith(AbstractEmailHandler $next)
     {
         $this->next = $next;
+
         return $next;
     }
 
@@ -63,7 +65,8 @@ abstract class AbstractEmailHandler implements EmailHandlerInterface
     {
         $response = $this->sendEmail($email);
 
-        if (($response['status'] != 'success') && $this->next) {
+        if (($response['status'] != 'success') && $this->next)
+        {
             return $this->next->handle($email);
         }
 
@@ -79,5 +82,28 @@ abstract class AbstractEmailHandler implements EmailHandlerInterface
      *
      * @return null|mixed
      */
-    abstract protected function sendEmail($email);
+    protected function sendEmail($email)
+    {
+        // Fill 'from' and 'FormName' with default config value
+        if (!isset($email['from']) || empty($email['from'])) {
+            $email['from'] = $this->config['from'];
+        }
+
+        if (!isset($email['fromName']) || empty($email['fromName'])) {
+            $email['fromName'] = $this->config['fromName'];
+        }
+
+        // Send and get result
+        $emailGateway = new EmailGateway($this->config['handler'], $email, $this->config);
+        $result = $emailGateway->send();
+
+        // If success log data
+        if ($result['status'] == 'success') {
+
+            $this->logger->info(__METHOD__, $result);
+
+        }
+
+        return $result;
+    }
 }
