@@ -18,6 +18,9 @@ echo 'Install dependencies'
 ## Dependencies
 composer install
 
+echo 'Run seeder'
+php artisan db:seed
+
 echo 'Run Queue'
 ## Run queue
 php artisan optimize:clear
