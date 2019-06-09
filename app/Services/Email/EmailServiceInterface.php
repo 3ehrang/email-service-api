@@ -2,6 +2,8 @@
 
 namespace App\Services\Email;
 
+use App\Models\Data\EmailData;
+
 /**
  * Interface EmailServiceInterface
  * @package App\Services\Interfaces
@@ -20,9 +22,9 @@ interface EmailServiceInterface
 
     /**
      * @param string $sid Request service Id
-     * @param array $attributes Email sending data
+     * @param EmailData $emailData Email sending data
      *
      * @return mixed
      */
-    public function send($sid, array $attributes);
+    public function send($sid, EmailData $emailData);
 }

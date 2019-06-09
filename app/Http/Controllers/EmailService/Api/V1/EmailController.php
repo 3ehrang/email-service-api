@@ -81,8 +81,8 @@ class EmailController extends Controller
             ->onQueue('saveEmail')
         ;
 
-        // Send to queue for sending email
-        ProcessSendEmail::dispatch($sid, $emailDataModel->toArray())
+        // Send to queue for sending
+        ProcessSendEmail::dispatch($sid, $emailDataModel)
             ->delay(now()->addSeconds(20))
             ->onQueue('sendEmail')
         ;

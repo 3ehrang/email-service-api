@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Data\EmailData;
 use App\Services\Email\EmailServiceInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -15,7 +16,7 @@ class ProcessSendEmail implements ShouldQueue
 
     /**
      * Email sending data
-     * @var array
+     * @var EmailData
      */
     public $data;
 
@@ -29,12 +30,12 @@ class ProcessSendEmail implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param $sid
-     * @param  $data
+     * @param string $sid
+     * @param EmailData $data
      *
      * @return void
      */
-    public function __construct($sid, $data)
+    public function __construct($sid, EmailData $data)
     {
         $this->sid = $sid;
         $this->data = $data;
