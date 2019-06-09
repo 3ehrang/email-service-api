@@ -73,6 +73,14 @@ return [
             'retry_after' => 90,
         ],
 
+        'bifrost-redis' => [
+            'driver' => 'redis',
+            'connection' => 'default',
+            'queue' => 'saveEmail,sendEmail',
+            'retry_after' => 90,
+            'block_for' => null,
+        ],
+
     ],
 
     /*
