@@ -76,9 +76,10 @@ return [
         'bifrost-redis' => [
             'driver' => 'redis',
             'connection' => 'default',
-            'queue' => 'saveEmail,sendEmail',
+            'queue' => 'saveEmail,sendEmail,listeners',
             'retry_after' => 90,
             'block_for' => null,
+            'tries' => 5,
         ],
 
     ],
