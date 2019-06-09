@@ -25,4 +25,4 @@ echo 'Run Queue'
 ## Run queue
 php artisan optimize:clear
 php artisan config:cache
-php artisan queue:work --tries=3 --timeout=90
+php artisan queue:work bifrost-redis --tries=3 --timeout=90
