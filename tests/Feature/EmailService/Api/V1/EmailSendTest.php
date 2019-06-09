@@ -4,11 +4,14 @@ namespace Tests\Feature\EmailService\Api\V1;
 
 use App\Jobs\ProcessSaveEmail;
 use App\Jobs\ProcessSendEmail;
+use App\Services\Email\EmailService;
+use App\Services\Email\EmailServiceInterface;
 use Illuminate\Support\Facades\Bus;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Email;
+use Illuminate\Support\Facades\Queue;
 
 class EmailSendTest extends TestCase
 {
@@ -84,20 +87,34 @@ class EmailSendTest extends TestCase
         // Get sample data
         $email = $this->getSampleData();
 
-        // Mock our jobs
-        Bus::fake();
+        // Mock queue
+        Queue::fake();
 
-        // Send email request
+        // Send email request to endpoint
         $response = $this->json('POST', route('email.service.api.v1.email.send'), $email);
 
-        // Check save email job
-        Bus::assertDispatched(ProcessSaveEmail::class, function ($saveJob) use ($email) {
+        // Assert a job was pushed to saveEmail queue
+        Queue::assertPushedOn('saveEmail', ProcessSaveEmail::class);
+
+        // Assert a job was pushed just once
+        Queue::assertPushed(ProcessSaveEmail::class, 1);
+
+        // Perform save email
+        Queue::assertPushed(ProcessSaveEmail::class, function ($saveJob) use ($email) {
+
             return $saveJob->data['data']['to'] === $email['to'];
+
         });
 
+        // Assert a job was pushed to sendEmail queue
+        Queue::assertPushedOn('sendEmail', ProcessSendEmail::class);
+
+        // Assert a job was pushed just once
+        Queue::assertPushed(ProcessSendEmail::class, 1);
+
         // Check send email data
-        Bus::assertDispatched(ProcessSendEmail::class, function ($sendJob) use ($email) {
-            return $sendJob->data['to'] === $email['to'];
+        Queue::assertPushed(ProcessSendEmail::class, function ($sendJob) use ($email) {
+            return $sendJob->data->to === $email['to'];
         });
 
         return $response;
