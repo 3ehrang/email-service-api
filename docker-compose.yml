@@ -36,3 +36,9 @@ services:
     environment:
       PMA_HOST: bifrost-mysql
       PMA_PORT: 3306
+
+  bifrost-redis:
+    image: redis:5.0
+    container_name: 'bifrost-redis'
+    ports:
+      - 6379:6379
