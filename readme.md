@@ -15,6 +15,8 @@ When such an external service is unavailable there should be a fallback to a sec
 - Allow multiple mail formats
     - HTML
     - Text
+    
+- For more information please visit [Wiki page](https://github.com/3ehrang/email-service-api/wiki)
 
 ## Techniques
 
@@ -24,7 +26,7 @@ When such an external service is unavailable there should be a fallback to a sec
 - VusJS
 - Horizon
 - Docker
-- [Email Gateway](https://github.com/3ehrang/email-gateway)
+- [Email Gateway](https://packagist.org/packages/beno/email-gateway)
 
 ## Installation
 
