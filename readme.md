@@ -24,6 +24,7 @@ When such an external service is unavailable there should be a fallback to a sec
 - VusJS
 - Horizon
 - Docker
+- [Email Gateway](https://github.com/3ehrang/email-gateway)
 
 ## Installation
 
