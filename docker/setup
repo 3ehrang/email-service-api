@@ -1,10 +1,16 @@
-echo "Run initial setup"
+#!/bin/bash
+
+#echo "Run initial setup"
 cd /var/www/html
 
-echo "Copy files"
+#echo "Copy files"
 ## Copy config files
 cp /var/www/html/.env.example /var/www/html/.env
 cp /var/www/html/config/gateways.sample.php /var/www/html/config/gateways.php
+
+echo 'Install dependencies'
+## Dependencies
+composer install
 
 echo 'Generate artisan key'
 ## Generate artisan key
@@ -14,9 +20,7 @@ echo 'Run migrations'
 ## Database
 php artisan migrate
 
-echo 'Install dependencies'
-## Dependencies
-composer install
+
 
 echo 'Run seeder'
 php artisan db:seed
