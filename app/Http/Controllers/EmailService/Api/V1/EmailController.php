@@ -69,7 +69,7 @@ class EmailController extends Controller
             'received' => $emailDataModel->toArray()
         ];
 
-        // Send to queue for saving incoming data
+        // Send to queue for saving incoming data waiting 10s just for test reason
         $saveData = [
             'app_id' => $appId,
             'sid' => $sid,
@@ -81,7 +81,7 @@ class EmailController extends Controller
             ->onQueue('saveEmail')
         ;
 
-        // Send to queue for sending
+        // Send to queue for sending waiting 20s just for test reason and see how it works in horizon dashboard
         ProcessSendEmail::dispatch($sid, $emailDataModel)
             ->delay(now()->addSeconds(20))
             ->onQueue('sendEmail')
