@@ -31,9 +31,18 @@ When such an external service is unavailable there should be a fallback to a sec
 ## Installation
 
 1. Clone project
-2. Inside project's folder run `docker-compose up -d --build`
-3. After your docker container comes up run `docker-compose exec bifrost bash ./docker/setup.sh` for setting up all necessary things
-4. Put your email services information inside `config/gateways.php`
+
+2. Inside project's folder run:
+
+    `docker-compose up -d --build`
+
+3. After your docker container comes up for setting up project run:
+
+    `docker-compose exec bifrost bash /var/www/setup.sh`
+
+4. Put your email services information inside:
+
+    `config/gateways.php`
 
 Now the project will be ready!
 
