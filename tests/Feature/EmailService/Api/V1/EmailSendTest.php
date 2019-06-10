@@ -91,7 +91,7 @@ class EmailSendTest extends TestCase
         Queue::fake();
 
         // Send email request to endpoint
-        $response = $this->json('POST', route('email.service.api.v1.email.send'), $email);
+        $response = $this->json('POST', route('email.service.api.v1.emails.send'), $email);
 
         // Assert a job was pushed to saveEmail queue
         Queue::assertPushedOn('saveEmail', ProcessSaveEmail::class);

@@ -27,7 +27,7 @@ Route::group([
     'as' => 'email.service.api.v1.'], function () {
 
     // Send email
-    Route::post('emails', 'EmailController@send')->name('email.send');
+    Route::post('emails', 'EmailController@send')->name('emails.send');
 
     // Get emails
     Route::get('emails', 'EmailController@index')->name('emails.index');

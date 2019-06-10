@@ -125,7 +125,7 @@ class EmailSendValidationTest extends TestCase
      */
     public function sendRequest($email)
     {
-        $response = $this->json('POST', route('email.service.api.v1.email.send'), $email);
+        $response = $this->json('POST', route('email.service.api.v1.emails.send'), $email);
 
         return $response;
     }
