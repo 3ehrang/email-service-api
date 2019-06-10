@@ -1,72 +1,96 @@
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+## Transactional email micro-service
+This micro-service will use external services to actually sent the emails.
+When such an external service is unavailable there should be a fallback to a secondary service.
+- Able to send an e-mail by an (JSON) API and through a CLI command.
+- Logging entry for every email that is sent.
+- Using queuing technique for sending email asynchronously.
+- The micro-service is horizontal scalable.
+- The code has tests.
+- Using docker for running.
+- Including a VueJS application
+    - which allows to send an email (using this service)
+    - which allows to see all the emails with their status
+- Allow multiple mail formats
+    - HTML
+    - Text
 
-## About Laravel
+## Techniques
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Laravel
+- MySQL
+- Redis
+- VusJS
+- Horizon
+- Docker
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. Clone project
+2. Inside project's folder run `docker-compose up -d --build`
+3. After you docker container comes up run `docker-compose exec bifrost bash ./docker/setup.sh` for setting up all necessary things
 
-## Learning Laravel
+Now the project will be ready!
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Good to know
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1400 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Project main page: http://localhost:8000
+- Access Laravel Horizon: http://localhost:8000/horizon/
+- Access phpMyAdmin:  http://localhost:8081
 
-## Laravel Sponsors
+## Api Endpoints
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Actions Handled
+ 
+| Verb | URI | Action | Route Name
+| --- | --- | --- | --- |
+| GET | `/api/emailservice/v1/emails` |List all **Received** emails | email.service.api.v1.emails.index
+| POST | `/api/emailservice/v1/emails` |**Create** and **Send** email |  email.service.api.v1.emails.send
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
+### Email Sending Request and Response
 
-## Contributing
+#### Request:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**contentType** could be: *"text/string"* or *"text/html"*
 
-## Security Vulnerabilities
+```json
+{
+    "subject":"Molestiae quidem ratione ipsum.",
+    "from":"letha.schaefer@grimes.com",
+    "fromName":"Pietro Yost",
+    "to":"fwunsch@yahoo.com",
+    "toName":"Lexi Kertzmann",
+    "contentType":"text\/string",
+    "content":"Rerum soluta culpa quia perspiciatis mollitia deserunt. Numquam et excepturi est nulla laboriosam.",
+    "app_id":"support"
+}
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#### Response:
 
-## License
+Status field could be: *success*, *fail* or *error* using [JSend](https://github.com/omniti-labs/jsend) fomat
 
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```json
+{
+    "status": "success",
+    "data": {
+        "sid": "sid-5cfde4a17d652",
+        "received": {
+            "subject": "Molestiae quidem ratione ipsum.",
+            "from": "letha.schaefer@grimes.com",
+            "fromName": "Pietro Yost",
+            "to": "fwunsch@yahoo.com",
+            "toName": "Lexi Kertzmann",
+            "content": "Rerum soluta culpa quia perspiciatis mollitia deserunt. Numquam et excepturi est nulla laboriosam.",
+            "contentType": "text/string"
+        }
+    }
+}
+```
+
+## Test
+
+Run PHPUnit test in project foldr by this command:
+
+`./vendor/bin/phpunit`
