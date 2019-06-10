@@ -18,6 +18,7 @@ RUN apt-get install -y \
     libreadline-dev \
     libfreetype6-dev \
     nano \
+    dos2unix \
     g++
 
 # 2. apache configs + document root
@@ -45,3 +46,7 @@ RUN docker-php-ext-install \
 
 # 5. composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# 6. copy setup file and convert it to unix format
+COPY ./setup.sh /var/www/setup.sh
+RUN dos2unix /var/www/setup.sh
