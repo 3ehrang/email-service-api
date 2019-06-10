@@ -39,6 +39,11 @@ When such an external service is unavailable there should be a fallback to a sec
 3. After your docker container comes up for setting up project run:
 
     `docker-compose exec bifrost bash /var/www/setup.sh`
+    
+    The above command runs queue automatically, for running queue manually run it by:
+    
+    `php artisan queue:work bifrost-redis --tries=3 --timeout=90`
+    
 
 4. Put your email services information inside:
 
@@ -46,11 +51,13 @@ When such an external service is unavailable there should be a fallback to a sec
 
 Now the project will be ready!
 
-## Good to know
+## Main Urls
 
 - Project main page: http://localhost:8000
 - Access Laravel Horizon: http://localhost:8000/horizon/
 - Access phpMyAdmin:  http://localhost:8081
+    - username: root
+    - password: root
 
 ## Api Endpoints
 
