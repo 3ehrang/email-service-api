@@ -57,9 +57,9 @@ Actions Handled
 ```json
 {
     "subject":"Molestiae quidem ratione ipsum.",
-    "from":"letha.schaefer@grimes.com",
+    "from":"sender@example.com",
     "fromName":"Pietro Yost",
-    "to":"fwunsch@yahoo.com",
+    "to":"receiver@example.com",
     "toName":"Lexi Kertzmann",
     "contentType":"text\/string",
     "content":"Rerum soluta culpa quia perspiciatis mollitia deserunt. Numquam et excepturi est nulla laboriosam.",
@@ -78,9 +78,9 @@ Status field could be: *success*, *fail* or *error* using [JSend](https://github
         "sid": "sid-5cfde4a17d652",
         "received": {
             "subject": "Molestiae quidem ratione ipsum.",
-            "from": "letha.schaefer@grimes.com",
+            "from": "sender@example.com",
             "fromName": "Pietro Yost",
-            "to": "fwunsch@yahoo.com",
+            "to": "receiver@example.com",
             "toName": "Lexi Kertzmann",
             "content": "Rerum soluta culpa quia perspiciatis mollitia deserunt. Numquam et excepturi est nulla laboriosam.",
             "contentType": "text/string"
