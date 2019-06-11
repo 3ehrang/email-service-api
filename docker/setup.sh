@@ -10,6 +10,7 @@ cp /var/www/html/config/gateways.sample.php /var/www/html/config/gateways.php
 ## Dependencies
 echo 'Install Dependencies'
 composer install
+composer update
 
 ## Generate artisan key
 echo 'Generate Artisan Key'
