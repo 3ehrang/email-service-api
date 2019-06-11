@@ -6,8 +6,11 @@
         <div class="container">
             <div class="media">
                 <div class="media-body align-self-center text-left">
-                    <h2 class="mt-0">Transactional email microservice - code challenge</h2>
-                    <p>This microservice will use external services to actually sent the emails.</p>
+                    <h1>Bifrost</h1>
+                    <h2 class="mt-0">Transactional email microservice</h2>
+                    <p>Bifrost is a burning rainbow bridge that reaches between Midgard (Earth) and Asgard, the realm of the gods. The bridge is attested as Bilröst in the Poetic Edda;</p>
+                    <p><a href="https://en.wikipedia.org/wiki/Bifr%C3%B6st">wikipedia</a></p>
+
                 </div>
                 <img class="align-self-center ml-5" src="/images/showcase-1.png" alt="Generic placeholder image">
             </div>
